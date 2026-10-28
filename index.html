@@ -46,14 +46,14 @@
 
     <!-- Top Navigation Header -->
     <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700/80 sticky top-0 z-30 transition-colors shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
             <!-- Logo & Title -->
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMode('decks')">
-                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-                    <i class="fa-solid fa-layer-group text-xl"></i>
+            <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer shrink-0" onclick="switchMode('decks')">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+                    <i class="fa-solid fa-layer-group text-lg sm:text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">Flashcard Master</h1>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">Flashcard Master</h1>
                     <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Học từ vựng theo từng bộ bài Excel/JSON</p>
                 </div>
             </div>
@@ -78,61 +78,61 @@
             </nav>
 
             <!-- Action Controls & Header Tools -->
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1 sm:space-x-2 shrink-0">
                 <!-- Timer Display -->
-                <div class="flex items-center bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/80 px-3 py-1.5 rounded-xl text-indigo-700 dark:text-indigo-300 text-sm font-semibold">
-                    <i class="fa-solid fa-stopwatch mr-1.5 text-indigo-500"></i>
+                <div class="flex items-center bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/80 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-semibold">
+                    <i class="fa-solid fa-stopwatch mr-1 text-indigo-500"></i>
                     <span id="timer-display">00:00</span>
-                    <button id="btn-toggle-timer" onclick="toggleTimer()" class="ml-2 hover:text-indigo-900 dark:hover:text-white transition" title="Bắt đầu / Tạm dừng">
-                        <i class="fa-solid fa-pause text-xs" id="timer-icon"></i>
+                    <button id="btn-toggle-timer" onclick="toggleTimer()" class="ml-1.5 hover:text-indigo-900 dark:hover:text-white transition" title="Bắt đầu / Tạm dừng">
+                        <i class="fa-solid fa-pause text-[10px] sm:text-xs" id="timer-icon"></i>
                     </button>
                 </div>
 
                 <!-- Theme Toggle -->
-                <button id="btn-theme" onclick="toggleDarkMode()" class="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/60 transition" title="Đổi giao diện Sáng/Tối">
-                    <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
+                <button id="btn-theme" onclick="toggleDarkMode()" class="p-1.5 sm:p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/60 transition" title="Đổi giao diện Sáng/Tối">
+                    <i class="fa-solid fa-moon text-base sm:text-lg" id="theme-icon"></i>
                 </button>
 
                 <!-- Import JSON Modal Button -->
-                <button onclick="openJsonModal()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 px-3 py-2 rounded-xl font-medium transition text-sm flex items-center shadow-sm">
-                    <i class="fa-solid fa-code sm:mr-1.5"></i>
-                    <span class="hidden sm:inline">Nhập JSON</span>
+                <button onclick="openJsonModal()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 p-2 sm:px-3 sm:py-2 rounded-xl font-medium transition text-xs sm:text-sm flex items-center shadow-sm" title="Nhập JSON">
+                    <i class="fa-solid fa-code"></i>
+                    <span class="hidden md:inline ml-1.5">Nhập JSON</span>
                 </button>
 
                 <!-- Excel Upload -->
-                <label for="excel-upload" class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-3.5 py-2 rounded-xl font-medium transition text-sm flex items-center shadow-sm">
-                    <i class="fa-solid fa-file-excel sm:mr-2"></i>
-                    <span class="hidden sm:inline">Nhập Excel</span>
+                <label for="excel-upload" class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white p-2 sm:px-3.5 sm:py-2 rounded-xl font-medium transition text-xs sm:text-sm flex items-center shadow-sm" title="Nhập Excel">
+                    <i class="fa-solid fa-file-excel"></i>
+                    <span class="hidden md:inline ml-2">Nhập Excel</span>
                 </label>
                 <input type="file" id="excel-upload" accept=".xlsx, .xls, .csv" class="hidden" />
             </div>
         </div>
 
         <!-- Mobile Navigation Row -->
-        <div class="flex md:hidden border-t border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 px-2 py-1.5 justify-around">
-            <button onclick="switchMode('decks')" class="mobile-nav-tab p-2 text-indigo-600 dark:text-indigo-400 flex flex-col items-center text-xs font-medium">
-                <i class="fa-solid fa-folder-open text-base mb-0.5"></i> Bộ bài
+        <div class="flex md:hidden border-t border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 px-1 py-1 justify-around">
+            <button onclick="switchMode('decks')" class="mobile-nav-tab p-1.5 text-indigo-600 dark:text-indigo-400 flex flex-col items-center text-[11px] font-medium">
+                <i class="fa-solid fa-folder-open text-sm mb-0.5"></i> Bộ bài
             </button>
-            <button onclick="switchMode('flashcard')" class="mobile-nav-tab p-2 text-slate-500 dark:text-slate-400 flex flex-col items-center text-xs font-medium">
-                <i class="fa-solid fa-clone text-base mb-0.5"></i> Thẻ
+            <button onclick="switchMode('flashcard')" class="mobile-nav-tab p-1.5 text-slate-500 dark:text-slate-400 flex flex-col items-center text-[11px] font-medium">
+                <i class="fa-solid fa-clone text-sm mb-0.5"></i> Thẻ
             </button>
-            <button onclick="switchMode('quiz')" class="mobile-nav-tab p-2 text-slate-500 dark:text-slate-400 flex flex-col items-center text-xs font-medium">
-                <i class="fa-solid fa-list-check text-base mb-0.5"></i> Trắc nghiệm
+            <button onclick="switchMode('quiz')" class="mobile-nav-tab p-1.5 text-slate-500 dark:text-slate-400 flex flex-col items-center text-[11px] font-medium">
+                <i class="fa-solid fa-list-check text-sm mb-0.5"></i> Trắc nghiệm
             </button>
-            <button onclick="switchMode('spelling')" class="mobile-nav-tab p-2 text-slate-500 dark:text-slate-400 flex flex-col items-center text-xs font-medium">
-                <i class="fa-solid fa-keyboard text-base mb-0.5"></i> Chính tả
+            <button onclick="switchMode('spelling')" class="mobile-nav-tab p-1.5 text-slate-500 dark:text-slate-400 flex flex-col items-center text-[11px] font-medium">
+                <i class="fa-solid fa-keyboard text-sm mb-0.5"></i> Chính tả
             </button>
-            <button onclick="switchMode('dashboard')" class="mobile-nav-tab p-2 text-slate-500 dark:text-slate-400 flex flex-col items-center text-xs font-medium">
-                <i class="fa-solid fa-chart-pie text-base mb-0.5"></i> Thống kê
+            <button onclick="switchMode('dashboard')" class="mobile-nav-tab p-1.5 text-slate-500 dark:text-slate-400 flex flex-col items-center text-[11px] font-medium">
+                <i class="fa-solid fa-chart-pie text-sm mb-0.5"></i> Thống kê
             </button>
         </div>
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 flex flex-col items-center">
+    <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 flex flex-col items-center">
 
         <!-- GLOBAL CONTROL BAR FOR LEARNING OPTIONS -->
-        <div id="learning-control-panel" class="w-full max-w-2xl mb-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 p-4 sm:p-5 rounded-2xl shadow-sm text-xs font-medium space-y-4">
+        <div id="learning-control-panel" class="w-full max-w-xl mb-4 sm:mb-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 p-3.5 sm:p-5 rounded-2xl shadow-sm text-xs font-medium space-y-3 sm:space-y-4">
             
             <!-- Row 1: Source & Order Mode -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-3 border-b border-slate-100 dark:border-slate-700/60">
@@ -217,29 +217,29 @@
         <!-- 1. MODE: FLASHCARD -->
         <section id="sec-flashcard" class="w-full flex flex-col items-center hidden">
             <!-- Stats / Filter Bar -->
-            <div class="w-full max-w-xl mb-4 flex justify-between items-center text-sm font-medium">
-                <div class="flex items-center space-x-2">
-                    <span id="card-counter" class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold">
+            <div class="w-full max-w-xl mb-3 flex justify-between items-center text-xs sm:text-sm font-medium">
+                <div class="flex items-center space-x-1.5 sm:space-x-2">
+                    <span id="card-counter" class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2.5 py-1 rounded-full text-xs font-semibold">
                         0 / 0
                     </span>
-                    <select id="filter-select" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs rounded-xl px-3 py-1 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <select id="filter-select" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs rounded-xl px-2 py-1 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         <option value="all">Tất cả từ vựng</option>
                         <option value="review">Cần ôn lại</option>
                         <option value="mastered">Đã thuộc</option>
                     </select>
                 </div>
-                <div class="flex items-center space-x-3 text-xs">
-                    <span class="text-emerald-600 dark:text-emerald-400 flex items-center font-medium"><i class="fa-solid fa-circle-check mr-1"></i> Thuộc: <strong id="count-mastered" class="ml-1">0</strong></span>
-                    <span class="text-amber-600 dark:text-amber-400 flex items-center font-medium"><i class="fa-solid fa-star mr-1"></i> Ôn lại: <strong id="count-review" class="ml-1">0</strong></span>
+                <div class="flex items-center space-x-2 sm:space-x-3 text-xs">
+                    <span class="text-emerald-600 dark:text-emerald-400 flex items-center font-medium"><i class="fa-solid fa-circle-check mr-1"></i> Thuộc: <strong id="count-mastered" class="ml-0.5">0</strong></span>
+                    <span class="text-amber-600 dark:text-amber-400 flex items-center font-medium"><i class="fa-solid fa-star mr-1"></i> Ôn: <strong id="count-review" class="ml-0.5">0</strong></span>
                 </div>
             </div>
 
             <!-- Flashcard Card Container -->
-            <div class="w-full max-w-xl h-88 sm:h-96 perspective cursor-pointer group" id="flashcard" onclick="flipCard()">
-                <div id="card-inner" class="relative w-full h-full duration-500 transform-style-3d shadow-xl rounded-3xl">
+            <div class="w-full max-w-xl min-h-[280px] sm:min-h-[340px] perspective cursor-pointer group my-1" id="flashcard" onclick="flipCard()">
+                <div id="card-inner" class="relative w-full h-full min-h-[280px] sm:min-h-[340px] duration-500 transform-style-3d shadow-xl rounded-3xl">
                     
                     <!-- Front Side -->
-                    <div class="absolute w-full h-full bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-3xl p-6 sm:p-8 backface-hidden flex flex-col justify-between items-center text-center shadow-sm">
+                    <div class="absolute inset-0 w-full h-full bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-3xl p-5 sm:p-8 backface-hidden flex flex-col justify-between items-center text-center shadow-sm">
                         <div class="w-full flex justify-between items-center text-slate-400 dark:text-slate-500 text-xs font-medium uppercase tracking-wider">
                             <span id="card-pos-front" class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2.5 py-0.5 rounded-md font-mono text-xs">word</span>
                             <div class="flex items-center space-x-1">
@@ -247,36 +247,36 @@
                                     <i class="fa-regular fa-star text-lg"></i>
                                 </button>
                                 <button onclick="speakWord(event)" class="p-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 rounded-full transition" title="Phát âm">
-                                    <i class="fa-solid fa-volume-high text-xl"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div class="my-auto py-4">
-                            <h2 id="card-word" class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight">Loading...</h2>
-                            <p id="card-phonetic" class="text-indigo-600 dark:text-indigo-400 font-serif italic text-lg sm:text-xl">/...</p>
+                        <div class="my-auto py-2 flex flex-col items-center justify-center">
+                            <h2 id="card-word" class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight break-words max-w-full">Loading...</h2>
+                            <p id="card-phonetic" class="text-indigo-600 dark:text-indigo-400 font-serif italic text-base sm:text-xl">/...</p>
                         </div>
 
-                        <div class="flex items-center text-xs text-slate-400 dark:text-slate-500 font-medium">
+                        <div class="flex items-center text-[11px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium">
                             <i class="fa-solid fa-rotate mr-1.5"></i> Nhấp để lật xem nghĩa
                         </div>
                     </div>
 
                     <!-- Back Side -->
-                    <div class="absolute w-full h-full bg-indigo-900 text-white border border-indigo-800 rounded-3xl p-6 sm:p-8 backface-hidden rotate-y-180 flex flex-col justify-between items-center text-center shadow-xl">
+                    <div class="absolute inset-0 w-full h-full bg-indigo-900 text-white border border-indigo-800 rounded-3xl p-5 sm:p-8 backface-hidden rotate-y-180 flex flex-col justify-between items-center text-center shadow-xl">
                         <div class="w-full flex justify-between items-center text-indigo-300 text-xs font-medium uppercase tracking-wider">
                             <span>Nghĩa & Ví dụ</span>
                             <span id="card-pos-back" class="bg-indigo-800 text-indigo-200 px-2.5 py-0.5 rounded-md font-mono text-xs">word</span>
                         </div>
 
-                        <div class="my-auto space-y-4 py-2">
-                            <h3 id="card-meaning" class="text-2xl sm:text-3xl font-bold text-amber-300 leading-snug">--</h3>
-                            <p id="card-example" class="text-indigo-100 text-sm sm:text-base italic max-w-md bg-indigo-950/60 p-3.5 rounded-xl border border-indigo-800/80 leading-relaxed">
+                        <div class="my-auto space-y-3 py-2 w-full">
+                            <h3 id="card-meaning" class="text-xl sm:text-3xl font-bold text-amber-300 leading-snug">--</h3>
+                            <p id="card-example" class="text-indigo-100 text-xs sm:text-base italic max-w-md bg-indigo-950/60 p-2.5 sm:p-3.5 rounded-xl border border-indigo-800/80 leading-relaxed mx-auto">
                                 "--"
                             </p>
                         </div>
 
-                        <div class="flex items-center text-xs text-indigo-300 font-medium">
+                        <div class="flex items-center text-[11px] sm:text-xs text-indigo-300 font-medium">
                             <i class="fa-solid fa-rotate mr-1.5"></i> Nhấp để quay lại mặt trước
                         </div>
                     </div>
@@ -285,27 +285,27 @@
             </div>
 
             <!-- Action Controls Below Flashcard -->
-            <div class="w-full max-w-xl mt-6 flex justify-between items-center gap-2 sm:gap-4">
-                <button onclick="prevCard()" class="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-3 rounded-2xl font-medium border border-slate-200 dark:border-slate-700 transition shadow-sm flex items-center text-sm">
-                    <i class="fa-solid fa-chevron-left mr-2"></i> Trước
+            <div class="w-full max-w-xl mt-4 sm:mt-6 flex justify-between items-center gap-2">
+                <button onclick="prevCard()" class="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl font-medium border border-slate-200 dark:border-slate-700 transition shadow-sm flex items-center text-xs sm:text-sm">
+                    <i class="fa-solid fa-chevron-left sm:mr-2"></i> <span class="hidden sm:inline">Trước</span>
                 </button>
 
-                <div class="flex space-x-2">
-                    <button id="btn-mark-review" onclick="markStatus('review')" class="bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/50 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 px-3.5 py-3 rounded-2xl font-medium transition text-xs sm:text-sm flex items-center border border-amber-200 dark:border-amber-800">
-                        <i class="fa-solid fa-star mr-1.5"></i> Cần ôn
+                <div class="flex space-x-1.5 sm:space-x-2">
+                    <button id="btn-mark-review" onclick="markStatus('review')" class="bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/50 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 px-3 py-2.5 sm:px-3.5 sm:py-3 rounded-2xl font-medium transition text-xs sm:text-sm flex items-center border border-amber-200 dark:border-amber-800">
+                        <i class="fa-solid fa-star mr-1"></i> <span class="text-xs">Ôn lại</span>
                     </button>
-                    <button id="btn-mark-mastered" onclick="markStatus('mastered')" class="bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 px-3.5 py-3 rounded-2xl font-medium transition text-xs sm:text-sm flex items-center border border-emerald-200 dark:border-emerald-800">
-                        <i class="fa-solid fa-check mr-1.5"></i> Đã thuộc
+                    <button id="btn-mark-mastered" onclick="markStatus('mastered')" class="bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 px-3 py-2.5 sm:px-3.5 sm:py-3 rounded-2xl font-medium transition text-xs sm:text-sm flex items-center border border-emerald-200 dark:border-emerald-800">
+                        <i class="fa-solid fa-check mr-1"></i> <span class="text-xs">Đã thuộc</span>
                     </button>
                 </div>
 
-                <button onclick="nextCard()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-2xl font-medium transition shadow-md flex items-center text-sm">
-                    Tiếp <i class="fa-solid fa-chevron-right ml-2"></i>
+                <button onclick="nextCard()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl font-medium transition shadow-md flex items-center text-xs sm:text-sm">
+                    <span class="hidden sm:inline">Tiếp</span> <i class="fa-solid fa-chevron-right sm:ml-2"></i>
                 </button>
             </div>
 
             <!-- Extra Tools -->
-            <div class="mt-6 flex items-center space-x-6 text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <div class="mt-4 sm:mt-6 flex items-center space-x-6 text-xs text-slate-500 dark:text-slate-400 font-medium">
                 <button onclick="shuffleWords()" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition flex items-center">
                     <i class="fa-solid fa-shuffle mr-1.5"></i> Xáo trộn thẻ
                 </button>
