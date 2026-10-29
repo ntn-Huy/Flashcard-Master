@@ -7,6 +7,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Flashcard">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" type="image/png" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <title>English Flashcards Master - Học Từ Vựng Đa Bộ Bài</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -113,10 +116,10 @@
                 </button>
 
                 <!-- Excel Upload -->
-                <label for="excel-upload" class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white p-2 sm:px-3.5 sm:py-2 rounded-xl font-medium transition text-xs sm:text-sm flex items-center shadow-sm" title="Nhập Excel">
+                <button type="button" onclick="openExcelGuide()" class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white p-2 sm:px-3.5 sm:py-2 rounded-xl font-medium transition text-xs sm:text-sm flex items-center shadow-sm" title="Nhập Excel (xem hướng dẫn định dạng)">
                     <i class="fa-solid fa-file-excel"></i>
                     <span class="hidden 2xl:inline ml-2">Nhập Excel</span>
-                </label>
+                </button>
                 <input type="file" id="excel-upload" accept=".xlsx, .xls, .csv" class="hidden" />
             </div>
         </div>
@@ -249,6 +252,18 @@
                 </div>
             </div>
 
+            <!-- Card session progress -->
+            <div class="w-full max-w-xl mb-3">
+                <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1.5">
+                    <span>Đã thuộc: <b id="card-done-count" class="text-emerald-500">0</b> / <b id="card-total" class="text-indigo-600 dark:text-indigo-400">0</b></span>
+                    <span>Hoàn thành: <b id="card-percent" class="text-emerald-500">0%</b></span>
+                </div>
+                <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+                    <div id="card-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="cards-body" class="w-full flex flex-col items-center">
             <!-- Flashcard Card Container -->
             <div class="w-full max-w-xl min-h-[280px] sm:min-h-[340px] perspective cursor-pointer group my-1 relative select-none touch-pan-y" id="flashcard" onclick="onCardClick()">
                 <!-- Swipe overlays -->
@@ -333,6 +348,18 @@
             <div class="mt-4 sm:mt-6 flex items-center space-x-6 text-xs text-slate-500 dark:text-slate-400 font-medium">
                 <button onclick="shuffleWords()" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition flex items-center">
                     <i class="fa-solid fa-shuffle mr-1.5"></i> Xáo trộn thẻ
+                </button>
+            </div>
+            </div>
+
+            <div id="cards-done" class="hidden w-full max-w-xl text-center py-8 px-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
+                    <i class="fa-solid fa-trophy text-3xl text-emerald-500"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Chúc mừng! Bạn đã thuộc hết!</h3>
+                <p id="cards-done-msg" class="text-sm text-slate-500 dark:text-slate-400 mb-5"></p>
+                <button onclick="applyFilter()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-2xl transition shadow-sm">
+                    <i class="fa-solid fa-rotate-right mr-1.5"></i> Học lại phạm vi này
                 </button>
             </div>
 
@@ -479,7 +506,7 @@
 
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Huy hiệu & Chuỗi ngày học</h4>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Danh hiệu & Chuỗi ngày học <span id="badge-count" class="ml-1 text-xs font-medium text-slate-400"></span></h4>
                         <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">
                             <i class="fa-solid fa-fire text-amber-500 mr-1"></i><b class="js-streak">0</b> ngày liên tiếp
                             · <i class="fa-solid fa-bolt text-indigo-500 mr-1"></i><b class="js-xp">0</b> XP
@@ -503,6 +530,55 @@
 
     </main>
 
+    <!-- Excel Guide Modal -->
+    <div id="excel-guide" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeExcelGuide()">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-lg max-h-[90vh] overflow-y-auto p-5 sm:p-6">
+            <div class="flex items-start justify-between mb-3">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center"><i class="fa-solid fa-file-excel text-emerald-500 mr-2"></i> Hướng dẫn nhập file Excel</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Làm đúng 4 bước dưới đây để web đọc được toàn bộ từ vựng.</p>
+                </div>
+                <button onclick="closeExcelGuide()" class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 mb-4">
+                <table class="w-full text-xs text-left">
+                    <thead class="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300">
+                        <tr><th class="px-3 py-2 font-bold">Word</th><th class="px-3 py-2 font-bold">Phonetic</th><th class="px-3 py-2 font-bold">Meaning</th><th class="px-3 py-2 font-bold">Example</th></tr>
+                    </thead>
+                    <tbody class="text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-700">
+                        <tr><td class="px-3 py-1.5">apple</td><td class="px-3 py-1.5">/ˈæp.əl/</td><td class="px-3 py-1.5">quả táo</td><td class="px-3 py-1.5">I eat an apple every day.</td></tr>
+                        <tr><td class="px-3 py-1.5">book</td><td class="px-3 py-1.5">/bʊk/</td><td class="px-3 py-1.5">quyển sách</td><td class="px-3 py-1.5">She is reading a book.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <ol class="space-y-2.5 text-sm text-slate-700 dark:text-slate-300 mb-4">
+                <li class="flex"><span class="shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center mr-2.5 mt-0.5">1</span>
+                    <span><b>Dòng đầu là tiêu đề, mỗi dòng sau là một từ.</b> Dữ liệu phải nằm ở <b>Sheet đầu tiên</b>. Hỗ trợ file <b>.xlsx, .xls, .csv</b>.</span></li>
+                <li class="flex"><span class="shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center mr-2.5 mt-0.5">2</span>
+                    <span><b>Hai cột bắt buộc:</b> <code class="px-1 rounded bg-slate-100 dark:bg-slate-900">Word</code> (hoặc <i>Từ vựng</i>) và <code class="px-1 rounded bg-slate-100 dark:bg-slate-900">Meaning</code> (hoặc <i>Nghĩa</i>). Hai cột tùy chọn: <code class="px-1 rounded bg-slate-100 dark:bg-slate-900">Phonetic</code> (<i>Phiên âm</i>) và <code class="px-1 rounded bg-slate-100 dark:bg-slate-900">Example</code> (<i>Ví dụ</i>).</span></li>
+                <li class="flex"><span class="shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center mr-2.5 mt-0.5">3</span>
+                    <span><b>Tên tiêu đề không phân biệt hoa/thường</b>, các cột có thể đặt thứ tự bất kỳ, và tiêu đề nằm trong 10 dòng đầu. Nếu không có tiêu đề, web sẽ đọc theo thứ tự cột B = Từ, C = Phiên âm, D = Nghĩa, E = Ví dụ, bắt đầu từ dòng 2 (cột A bỏ qua, ví dụ cột STT).</span></li>
+                <li class="flex"><span class="shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center mr-2.5 mt-0.5">4</span>
+                    <span><b>Mỗi từ một dòng, không gộp ô.</b> Dòng thiếu Word hoặc Meaning sẽ bị bỏ qua. Dùng chữ thuần (không công thức, không hình ảnh). Tiếng Việt có dấu dùng bình thường; file CSV nên lưu dạng UTF-8.</span></li>
+            </ol>
+
+            <div class="rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-xs text-amber-800 dark:text-amber-300 p-3 mb-4">
+                <i class="fa-solid fa-lightbulb mr-1"></i> Sau khi chọn file, web sẽ hỏi tên bộ bài. Nhập lại file cùng tên sẽ cập nhật bộ bài đó và <b>vẫn giữ tiến độ</b> của các từ trùng. Muốn gửi cho người khác dùng chung, chỉ cần gửi file .xlsx đúng định dạng này.
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2">
+                <button onclick="downloadExcelTemplate()" class="flex-1 bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium py-2.5 rounded-2xl text-sm transition">
+                    <i class="fa-solid fa-download mr-1.5"></i> Tải file mẫu (.xlsx)
+                </button>
+                <button onclick="pickExcelFile()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-2xl text-sm transition shadow-sm">
+                    <i class="fa-solid fa-folder-open mr-1.5"></i> Chọn file Excel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- App Logic Script -->
     <script>
         // Default Sample Vocabulary Data fallback
@@ -518,12 +594,8 @@
 
         // Danh sách các file mặc định trong thư mục /data
         const DEFAULT_DATA_FILES = [
-            "./data/Vocabulary A1.xlsx",
-            "./data/Vocabulary A2.xlsx",
-            "./data/Vocabulary B1.xlsx",
-            "./data/Vocabulary B2.xlsx",
-            "./data/Vocabulary C1.xlsx",
-            "./data/Vocabulary C2.xlsx",
+            "./data/Vocabulary_A1.xlsx",
+            "./data/Vocabulary_A2.xlsx",
             "./data/default_decks.json"
         ];
 
@@ -603,12 +675,16 @@
             if (userStats.lastDate === t) return;
             userStats.streak = (userStats.lastDate === t - 1) ? userStats.streak + 1 : 1;
             userStats.lastDate = t;
+            userStats.bestStreak = Math.max(U('bestStreak'), userStats.streak);
             saveStats();
             updateStatsDisplay();
             checkBadges();
         }
         function addXP(n) {
             userStats.xp += n;
+            const hr = new Date().getHours();
+            if (hr >= 22 || hr < 4) userStats.owl = 1;
+            if (hr >= 4 && hr < 6) userStats.early = 1;
             touchStreak();
             saveStats();
             updateStatsDisplay();
@@ -618,31 +694,77 @@
             document.querySelectorAll('.js-xp').forEach(el => el.textContent = userStats.xp);
         }
 
+        const U = k => userStats[k] || 0;
+        const srsBox4 = () => Object.values(srs).filter(s => s.box >= 4).length;
+        const deckMastered = () => Object.values(decks).some(d => d.length >= 10 && d.every(w => masteredIds.has(wkey(w)))) ? 1 : 0;
+        const bestStreakNow = () => Math.max(userStats.streak, U('bestStreak'));
+        // [id, nhóm, bậc(0-3), tên, mô tả, icon, mục tiêu, hàm giá trị, bí mật?]
         const BADGES = [
-            { id: 'newbie', name: 'Tân thủ', desc: 'Học xong (đã thuộc) 50 từ', icon: 'fa-seedling', test: () => masteredIds.size >= 50 },
-            { id: 'diligent', name: 'Chăm chỉ', desc: 'Học 7 ngày liên tiếp', icon: 'fa-calendar-check', test: () => userStats.streak >= 7 },
-            { id: 'speller', name: 'Thánh chính tả', desc: 'Hoàn thành bài chính tả không sai câu nào', icon: 'fa-spell-check' }
-        ];
+            ['newbie', 'Từ vựng', 1, 'Tân thủ', 'Thuộc 50 từ', 'fa-seedling', 50, () => masteredIds.size],
+            ['scholar', 'Từ vựng', 2, 'Học giả', 'Thuộc 200 từ', 'fa-book-open', 200, () => masteredIds.size],
+            ['sage', 'Từ vựng', 3, 'Bác học', 'Thuộc 500 từ', 'fa-graduation-cap', 500, () => masteredIds.size],
+            ['master', 'Từ vựng', 3, 'Thông thái', 'Thuộc 1000 từ', 'fa-crown', 1000, () => masteredIds.size],
+            ['diligent', 'Chuỗi ngày', 1, 'Chăm chỉ', 'Học 7 ngày liên tiếp', 'fa-calendar-check', 7, bestStreakNow],
+            ['persist', 'Chuỗi ngày', 2, 'Kiên trì', 'Học 14 ngày liên tiếp', 'fa-calendar-day', 14, bestStreakNow],
+            ['tough', 'Chuỗi ngày', 3, 'Bền bỉ', 'Học 30 ngày liên tiếp', 'fa-fire', 30, bestStreakNow],
+            ['legend', 'Chuỗi ngày', 3, 'Huyền thoại', 'Học 100 ngày liên tiếp', 'fa-medal', 100, bestStreakNow],
+            ['speller', 'Chính tả', 1, 'Thánh chính tả', '1 bài chính tả không sai câu nào', 'fa-spell-check', 1, () => U('spellPerfect')],
+            ['goldhand', 'Chính tả', 3, 'Bàn tay vàng', '5 bài chính tả không sai câu nào', 'fa-pen-nib', 5, () => U('spellPerfect')],
+            ['quizking', 'Trắc nghiệm', 1, 'Nhà vô địch', '1 bài trắc nghiệm không sai câu nào', 'fa-trophy', 1, () => U('quizPerfect')],
+            ['combo10', 'Trắc nghiệm', 2, 'Combo 10', 'Đúng liên tiếp 10 câu', 'fa-bolt', 10, () => U('bestCombo')],
+            ['combo25', 'Trắc nghiệm', 3, 'Combo 25', 'Đúng liên tiếp 25 câu', 'fa-rocket', 25, () => U('bestCombo')],
+            ['voice20', 'Phát âm', 1, 'Giọng chuẩn', 'Phát âm đạt 20 lần', 'fa-microphone', 20, () => U('pronOk')],
+            ['voice100', 'Phát âm', 3, 'Giọng bản xứ', 'Phát âm đạt 100 lần', 'fa-headphones', 100, () => U('pronOk')],
+            ['steel', 'Ôn tập SRS', 2, 'Trí nhớ thép', '20 từ đạt hộp 4 trở lên', 'fa-brain', 20, srsBox4],
+            ['hardslayer', 'Ôn tập SRS', 2, 'Diệt từ khó', 'Đưa 20 từ ra khỏi danh sách hay quên', 'fa-shield-halved', 20, () => U('hardCleared')],
+            ['firstday', 'Hoàn thành', 1, 'Khởi đầu', 'Hoàn thành 1 phiên học thẻ', 'fa-flag-checkered', 1, () => U('cardSessions')],
+            ['deckmaster', 'Hoàn thành', 3, 'Chinh phục bộ bài', 'Thuộc 100% một bộ bài (từ 10 từ)', 'fa-gem', 1, deckMastered],
+            ['xp500', 'Điểm XP', 1, 'Tích lũy', 'Đạt 500 XP', 'fa-star', 500, () => userStats.xp],
+            ['xp2000', 'Điểm XP', 2, 'Sung sức', 'Đạt 2.000 XP', 'fa-star-half-stroke', 2000, () => userStats.xp],
+            ['xp10000', 'Điểm XP', 3, 'Cao thủ', 'Đạt 10.000 XP', 'fa-ranking-star', 10000, () => userStats.xp],
+            ['owl', 'Bí mật', 0, 'Cú đêm', 'Học sau 22h đêm', 'fa-moon', 1, () => U('owl'), true],
+            ['early', 'Bí mật', 0, 'Chim sớm', 'Học trước 6h sáng', 'fa-sun', 1, () => U('early'), true]
+        ].map(a => ({ id: a[0], g: a[1], t: a[2], name: a[3], desc: a[4], icon: a[5], target: a[6], value: a[7], secret: !!a[8] }));
+
+        let badgeQ = 0;
         function awardBadge(id) {
             if (userStats.badges.includes(id)) return;
             userStats.badges.push(id);
             userStats.xp += 50;
             saveStats();
             updateStatsDisplay();
-            toast(`🏅 Huy hiệu mới: ${BADGES.find(b => b.id === id).name} (+50 XP)`);
-            confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 } });
+            const b = BADGES.find(x => x.id === id);
+            if (!b) return;
+            setTimeout(() => { toast(`🏅 Danh hiệu mới: ${b.name} (+50 XP)`); badgeQ = Math.max(0, badgeQ - 1); }, badgeQ++ * 2900);
         }
-        function checkBadges() { BADGES.forEach(b => { if (b.test && b.test()) awardBadge(b.id); }); }
+        function checkBadges() {
+            let any = false;
+            BADGES.forEach(b => { if (!userStats.badges.includes(b.id) && b.value() >= b.target) { awardBadge(b.id); any = true; } });
+            if (any) confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 } });
+        }
         function renderBadges() {
             const grid = document.getElementById('badges-grid');
             if (!grid) return;
-            grid.innerHTML = BADGES.map(b => {
-                const got = userStats.badges.includes(b.id);
-                return `<div class="flex items-center gap-3 p-3 rounded-2xl border ${got ? 'border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 opacity-60'}">
-                    <i class="fa-solid ${got ? b.icon : 'fa-lock'} text-lg w-6 text-center ${got ? 'text-amber-500' : 'text-slate-400'}"></i>
-                    <div><p class="text-xs font-bold text-slate-900 dark:text-white">${b.name}</p>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400">${b.desc}</p></div></div>`;
-            }).join('');
+            const tierCls = ['text-amber-500', 'text-orange-500', 'text-slate-400', 'text-yellow-500'];
+            let html = '', lastG = '', got = 0;
+            BADGES.forEach(b => {
+                if (b.g !== lastG) { lastG = b.g; html += `<p class="col-span-full text-[11px] font-bold uppercase tracking-wide text-slate-400 mt-2">${b.g}</p>`; }
+                const ok = userStats.badges.includes(b.id);
+                if (ok) got++;
+                const v = Math.min(b.value(), b.target), pct = Math.round(v / b.target * 100);
+                const hide = b.secret && !ok;
+                html += `<div class="p-3 rounded-2xl border ${ok ? 'border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 opacity-70'}">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid ${ok ? b.icon : (hide ? 'fa-question' : 'fa-lock')} text-lg w-6 text-center ${ok ? tierCls[b.t] : 'text-slate-400'}"></i>
+                        <div class="min-w-0"><p class="text-xs font-bold text-slate-900 dark:text-white">${hide ? '???' : b.name}</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">${hide ? 'Danh hiệu bí mật' : b.desc}</p></div>
+                    </div>
+                    ${(ok || hide) ? '' : `<div class="mt-2 flex items-center gap-2"><div class="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden"><div class="bg-indigo-500 h-full rounded-full" style="width:${pct}%"></div></div><span class="text-[10px] font-semibold text-slate-400">${v}/${b.target}</span></div>`}
+                </div>`;
+            });
+            grid.innerHTML = html;
+            const bc = document.getElementById('badge-count');
+            if (bc) bc.textContent = `(Đã mở ${got}/${BADGES.length})`;
             const due = document.getElementById('stat-due');
             if (due) due.textContent = dueWords().length;
         }
@@ -726,7 +848,7 @@
             const cur = filteredWords[currentIndex];
             recognizeSpeech(document.getElementById('btn-card-mic'), cur.Word, (score, heard) => {
                 const pct = Math.round(score * 100);
-                if (score >= 0.8) { playSoundEffect('correct'); addXP(5); toast(`✅ Phát âm tốt! (${pct}%) - nghe được: "${heard}"`); }
+                if (score >= 0.8) { playSoundEffect('correct'); userStats.pronOk = U('pronOk') + 1; saveStats(); addXP(5); toast(`✅ Phát âm tốt! (${pct}%) - nghe được: "${heard}"`); }
                 else { playSoundEffect('wrong'); toast(`❌ Chưa chuẩn (${pct}%) - nghe được: "${heard}"`); }
             });
         }
@@ -739,31 +861,107 @@
             });
         }
 
-        // ----- PWA trong 1 file: icon vẽ bằng canvas + manifest tạo bằng Blob -----
-        function setupInlinePWA() {
+        // ----- PWA (GitHub Pages): đăng ký service worker -----
+        function registerSW() {
+            if (!('serviceWorker' in navigator) || !location.protocol.startsWith('http')) return;
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    reg.addEventListener('updatefound', () => {
+                        const nw = reg.installing;
+                        if (nw) nw.addEventListener('statechange', () => {
+                            if (nw.state === 'installed' && navigator.serviceWorker.controller) toast('✨ Có phiên bản mới - hãy tải lại trang để cập nhật');
+                        });
+                    });
+                }).catch(() => {});
+            });
+        }
+
+        // ----- Hướng dẫn nhập Excel -----
+        function openExcelGuide() { document.getElementById('excel-guide').classList.remove('hidden'); }
+        function closeExcelGuide() { document.getElementById('excel-guide').classList.add('hidden'); }
+        function pickExcelFile() { closeExcelGuide(); document.getElementById('excel-upload').click(); }
+        function downloadExcelTemplate() {
+            const rows = [
+                ['Word', 'Phonetic', 'Meaning', 'Example'],
+                ['apple', '/ˈæp.əl/', 'quả táo', 'I eat an apple every day.'],
+                ['book', '/bʊk/', 'quyển sách', 'She is reading a book.'],
+                ['beautiful', '/ˈbjuː.tɪ.fəl/', 'xinh đẹp', 'What a beautiful day!']
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(rows);
+            ws['!cols'] = [{ wch: 18 }, { wch: 18 }, { wch: 22 }, { wch: 44 }];
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Vocabulary');
+            XLSX.writeFile(wb, 'Mau_Flashcard.xlsx');
+        }
+
+        // ----- ID ổn định + cập nhật bộ bài từ thư mục data/ -----
+        function assignStableIds(name, words) {
+            const seen = {};
+            words.forEach(w => {
+                const base = `${name}::${String(w.Word || '').trim().toLowerCase()}`;
+                const n = (seen[base] = (seen[base] || 0) + 1);
+                w.id = n === 1 ? base : `${base}#${n}`;
+            });
+        }
+        function migrateIds() {
+            const old = /^(file|imported|auto)_\d+_/;
+            const map = {};
+            Object.entries(decks).forEach(([name, ws]) => {
+                if (!Array.isArray(ws) || !ws.some(w => old.test(String(w.id)))) return;
+                const before = ws.map(w => w.id);
+                assignStableIds(name, ws);
+                ws.forEach((w, i) => { if (before[i] !== w.id) map[before[i]] = w.id; });
+            });
+            if (!Object.keys(map).length) return;
+            const mv = set => [...set].forEach(k => { if (map[k]) { set.delete(k); set.add(map[k]); } });
+            mv(masteredIds); mv(reviewIds);
+            Object.keys(srs).forEach(k => { if (map[k]) { srs[map[k]] = srs[k]; delete srs[k]; } });
+            saveSrs();
+            localStorage.setItem('flash_decks', JSON.stringify(decks));
+            localStorage.setItem('flash_mastered', JSON.stringify([...masteredIds]));
+            localStorage.setItem('flash_review', JSON.stringify([...reviewIds]));
+        }
+        async function getDataFileList() {
             try {
-                const c = document.createElement('canvas');
-                c.width = c.height = 512;
-                const g = c.getContext('2d');
-                g.fillStyle = '#4f46e5';
-                g.fillRect(0, 0, 512, 512);
-                [['#a5b4fc', 118, 150], ['#e0e7ff', 140, 126], ['#ffffff', 162, 102]].forEach(([col, x, y]) => {
-                    g.fillStyle = col; g.beginPath();
-                    (g.roundRect || g.rect).call(g, x, y, 232, 212, 28);
-                    g.fill();
-                });
-                const icon = c.toDataURL('image/png');
-                const add = (rel, href) => { const l = document.createElement('link'); l.rel = rel; l.href = href; document.head.appendChild(l); };
-                add('apple-touch-icon', icon);
-                add('icon', icon);
-                const manifest = {
-                    name: 'English Flashcards Master', short_name: 'Flashcard', lang: 'vi',
-                    start_url: location.href.split('#')[0], display: 'standalone',
-                    background_color: '#0f172a', theme_color: '#4f46e5',
-                    icons: [{ src: icon, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }]
-                };
-                add('manifest', URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' })));
+                const r = await fetch('./data/files.json', { cache: 'no-cache' });
+                if (r.ok) {
+                    const a = await r.json();
+                    if (Array.isArray(a) && a.length) return a.map(n => /^(\.|https?:)/.test(n) ? n : './data/' + n);
+                }
             } catch (e) {}
+            return DEFAULT_DATA_FILES;
+        }
+
+        // ----- Phiên học thẻ -----
+        const REVIEW_GAP = 4; // thẻ "Ôn lại" quay lại sau 4 thẻ
+        let cardTotal = 0, cardRated = new Set(), cardReviewMap = new Map();
+        function updateCardBar() {
+            const done = cardTotal - filteredWords.length;
+            const pct = cardTotal > 0 ? Math.round(done / cardTotal * 100) : 0;
+            const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+            set('card-done-count', Math.max(done, 0)); set('card-total', cardTotal); set('card-percent', pct + '%');
+            const b = document.getElementById('card-bar'); if (b) b.style.width = pct + '%';
+        }
+        function finishCards() {
+            userStats.cardSessions = U('cardSessions') + 1;
+            saveStats();
+            const vals = [...cardReviewMap.values()];
+            const reviews = vals.reduce((a, b) => a + b.n, 0);
+            const hardest = vals.sort((a, b) => b.n - a.n)[0];
+            let msg = `Bạn đã thuộc tất cả ${cardTotal} từ trong phạm vi này.`;
+            if (reviews === 0) { addXP(50); msg = `Tuyệt vời! Thuộc cả ${cardTotal} từ mà không phải ôn lại lần nào (+50 XP).`; }
+            else msg += ` Số lượt ôn lại: ${reviews}` + (hardest ? ` · Từ khó nhất: "${hardest.w.Word}" (${hardest.n} lần)` : '');
+            document.getElementById('cards-done-msg').textContent = msg;
+            document.getElementById('cards-body').classList.add('hidden');
+            document.getElementById('cards-done').classList.remove('hidden');
+            updateCardBar();
+            confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+            checkBadges();
+        }
+        function comboHit(ok) {
+            if (!ok) { userStats.combo = 0; return; }
+            userStats.combo = U('combo') + 1;
+            if (userStats.combo > U('bestCombo')) { userStats.bestCombo = userStats.combo; saveStats(); }
         }
 
         // ----- Phiên Trắc nghiệm -----
@@ -799,7 +997,7 @@
             if (!quizDone) {
                 quizDone = true;
                 confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
-                if (quizErrors === 0) { addXP(50); msg = `Tuyệt vời! Đúng 100% ngay lần đầu cả ${quizTotal} từ (+50 XP).`; }
+                if (quizErrors === 0) { userStats.quizPerfect = U('quizPerfect') + 1; saveStats(); addXP(50); msg = `Tuyệt vời! Đúng 100% ngay lần đầu cả ${quizTotal} từ (+50 XP).`; }
                 else msg += ` (Sai ${quizErrors} lượt)`;
                 document.getElementById('quiz-done-msg').textContent = msg;
             }
@@ -824,7 +1022,7 @@
                 spellDone = true;
                 confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
                 let msg = `Bạn đã viết đúng tất cả ${spellTotal} từ trong phạm vi này.`;
-                if (spellErrors === 0) { addXP(50); awardBadge('speller'); msg = `Tuyệt vời! Không sai câu nào, đúng cả ${spellTotal} từ (+50 XP).`; }
+                if (spellErrors === 0) { userStats.spellPerfect = U('spellPerfect') + 1; saveStats(); addXP(50); checkBadges(); msg = `Tuyệt vời! Không sai câu nào, đúng cả ${spellTotal} từ (+50 XP).`; }
                 else msg += ` (Sai ${spellErrors} lượt)`;
                 document.getElementById('spelling-done-msg').textContent = msg;
             }
@@ -911,7 +1109,7 @@
             startTimer();
             updateStatsDisplay();
             renderAutoPlayIcon();
-            setupInlinePWA();
+            registerSW();
             initCardSwipe();
             setupExcelReader();
             await loadSavedDataAndDefaultFiles();
@@ -940,7 +1138,9 @@
                 }
             }
 
-            // Tự động quét và tải các file từ thư mục /data/ nếu chưa có trong LocalStorage
+            migrateIds();
+
+            // Tự động quét và tải các file từ thư mục /data/ (cập nhật khi file trên GitHub thay đổi)
             await fetchDefaultDataFiles();
 
             // Nếu vẫn trống thì dùng mẫu dự phòng
@@ -955,7 +1155,8 @@
         }
 
         async function fetchDefaultDataFiles() {
-            for (const filePath of DEFAULT_DATA_FILES) {
+            const sigs = JSON.parse(localStorage.getItem('flash_sigs') || '{}');
+            for (const filePath of await getDataFileList()) {
                 try {
                     const response = await fetch(filePath);
                     if (!response.ok) continue; // Bỏ qua nếu file không tồn tại
@@ -974,18 +1175,21 @@
                             decks[fileName] = parseWordList(jsonData);
                         }
                     } else if (filePath.endsWith('.xlsx') || filePath.endsWith('.xls')) {
-                        if (!decks[fileName]) {
-                            const buffer = await response.arrayBuffer();
-                            const parsedWords = parseExcelBuffer(buffer);
-                            if (parsedWords.length > 0) {
-                                decks[fileName] = parsedWords;
-                            }
+                        const buffer = await response.arrayBuffer();
+                        const sig = buffer.byteLength + ':' + (response.headers.get('etag') || response.headers.get('last-modified') || '');
+                        if (decks[fileName] && sigs[filePath] === sig) continue; // file không đổi: bỏ qua, không đọc lại
+                        const parsedWords = parseExcelBuffer(buffer);
+                        if (parsedWords.length > 0) {
+                            assignStableIds(fileName, parsedWords);
+                            decks[fileName] = parsedWords;
+                            sigs[filePath] = sig;
                         }
                     }
                 } catch (err) {
                     console.log(`Không thể tải tự động file: ${filePath}`, err);
                 }
             }
+            localStorage.setItem('flash_sigs', JSON.stringify(sigs));
             saveData();
         }
 
@@ -1073,7 +1277,7 @@
                     <div class="col-span-full text-center py-12 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
                         <i class="fa-solid fa-folder-open text-4xl text-slate-300 dark:text-slate-600 mb-3"></i>
                         <p class="text-sm font-semibold text-slate-600 dark:text-slate-300">Chưa có bộ bài học nào</p>
-                        <p class="text-xs text-slate-400 mt-1">Hãy tải lên file Excel/CSV để bắt đầu</p>
+                        <p class="text-xs text-slate-400 mt-1">Hãy tải lên file Excel/CSV để bắt đầu. <button onclick="openExcelGuide()" class="text-indigo-600 dark:text-indigo-400 underline">Xem hướng dẫn định dạng</button></p>
                     </div>`;
                 return;
             }
@@ -1287,17 +1491,18 @@
 
         function applyFilter() {
             const filterVal = document.getElementById('filter-select').value;
-            
-            if (filterVal === 'mastered') {
-                filteredWords = activeWords.filter(w => masteredIds.has(w.id || w.Word));
-            } else if (filterVal === 'review') {
-                filteredWords = activeWords.filter(w => reviewIds.has(w.id || w.Word));
-            } else {
-                filteredWords = [...activeWords];
-            }
+            if (filterVal === 'mastered') filteredWords = activeWords.filter(w => masteredIds.has(wkey(w)));
+            else if (filterVal === 'review') filteredWords = activeWords.filter(w => reviewIds.has(wkey(w)));
+            else filteredWords = [...activeWords];
 
+            // Bắt đầu một phiên học thẻ mới
             currentIndex = 0;
             isFlipped = false;
+            cardTotal = filteredWords.length;
+            cardRated = new Set();
+            cardReviewMap = new Map();
+            document.getElementById('cards-body').classList.remove('hidden');
+            document.getElementById('cards-done').classList.add('hidden');
             renderCard();
         }
 
@@ -1344,6 +1549,7 @@
         // FLASHCARD DISPLAY & CONTROLS
         // -------------------------------------------------------------
         function renderCard() {
+            updateCardBar();
             const cardInner = document.getElementById('card-inner');
             if (isFlipped) {
                 cardInner.classList.remove('rotate-y-180');
@@ -1363,7 +1569,7 @@
             document.getElementById('count-review').textContent = reviewCount;
 
             if (filteredWords.length === 0) {
-                document.getElementById('card-counter').textContent = "0 / 0";
+                document.getElementById('card-counter').textContent = "Còn lại: 0";
                 document.getElementById('card-word').textContent = "Không có từ";
                 document.getElementById('card-phonetic').textContent = "";
                 document.getElementById('card-meaning').textContent = "Hãy chọn phạm vi học khác hoặc bỏ bộ lọc";
@@ -1377,7 +1583,7 @@
             const current = filteredWords[currentIndex];
             const wordKey = current.id || current.Word;
 
-            document.getElementById('card-counter').textContent = `${currentIndex + 1} / ${filteredWords.length}`;
+            document.getElementById('card-counter').textContent = `Còn lại: ${filteredWords.length}`;
             document.getElementById('card-word').textContent = current.Word || '';
             document.getElementById('card-phonetic').textContent = current.Phonetic || '';
             document.getElementById('card-pos-front').textContent = current.POS || 'word';
@@ -1419,8 +1625,10 @@
         }
 
         function shuffleWords() {
-            activeWords.sort(() => Math.random() - 0.5);
-            applyFilter();
+            filteredWords.sort(() => Math.random() - 0.5); // chỉ xáo các thẻ còn lại, giữ tiến độ phiên
+            currentIndex = 0;
+            renderCard();
+            autoSpeakCurrent();
         }
 
         function toggleStarCurrent(e) {
@@ -1442,24 +1650,37 @@
         function markStatus(status) {
             if (filteredWords.length === 0) return;
             const current = filteredWords[currentIndex];
-            const wordKey = current.id || current.Word;
+            const k = wkey(current);
+            const first = !cardRated.has(k); // chỉ lần chấm đầu tiên trong phiên được tính SRS/XP
 
             if (status === 'mastered') {
-                masteredIds.add(wordKey);
-                reviewIds.delete(wordKey);
+                const wasReview = reviewIds.has(k);
+                masteredIds.add(k);
+                reviewIds.delete(k);
                 playSoundEffect('correct');
-                srsRate(current, true);
-                addXP(5);
+                if (first) { srsRate(current, true); addXP(5); }
+                if (wasReview) { userStats.hardCleared = U('hardCleared') + 1; saveStats(); }
                 confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
-            } else if (status === 'review') {
-                reviewIds.add(wordKey);
-                masteredIds.delete(wordKey);
+                filteredWords.splice(currentIndex, 1); // đã thuộc: rời khỏi phiên
+            } else {
+                reviewIds.add(k);
+                masteredIds.delete(k);
                 playSoundEffect('tick');
-                srsRate(current, false);
+                if (first) srsRate(current, false);
+                const rec = cardReviewMap.get(k);
+                cardReviewMap.set(k, { w: current, n: (rec ? rec.n : 0) + 1 });
+                filteredWords.splice(currentIndex, 1);
+                if (currentIndex >= filteredWords.length) currentIndex = 0;
+                // ôn lại: quay lại sau vài thẻ nữa
+                filteredWords.splice(Math.min(currentIndex + REVIEW_GAP, filteredWords.length), 0, current);
             }
-
+            cardRated.add(k);
             saveData();
-            nextCard();
+
+            if (filteredWords.length === 0) { finishCards(); return; }
+            if (currentIndex >= filteredWords.length) currentIndex = 0;
+            renderCard();
+            autoSpeakCurrent();
         }
 
         function speakWord(e) {
@@ -1528,7 +1749,10 @@
                 addXP(10);
                 quizQueue.shift();
                 updateQuizProgress();
+                const answeredWord = currentQuizWord;
                 if (quizQueue.length === 0) setTimeout(finishQuiz, 1300);
+                else setTimeout(() => { if (currentQuizWord === answeredWord) generateQuizQuestion(); }, 1000);
+                comboHit(true);
                 btn.className = "w-full text-left p-4 rounded-2xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-bold text-sm transition";
                 feedbackEl.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> Chính xác!</span>`;
                 quizScore += 10;
@@ -1538,6 +1762,7 @@
                 feedbackEl.innerHTML = `<span class="text-rose-600 dark:text-rose-400"><i class="fa-solid fa-circle-xmark mr-1"></i> Sai rồi! Đáp án đúng: ${correct}</span>`;
                 const qk = wkey(currentQuizWord);
                 playSoundEffect('wrong');
+                comboHit(false);
                 if (!quizFailedSet.has(qk)) srsRate(currentQuizWord, false);
                 quizFailedSet.add(qk);
                 quizErrors++;
@@ -1577,6 +1802,7 @@
                 confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
                 spellLocked = true;
                 playSoundEffect('correct');
+                comboHit(true);
                 if (!spellFailedSet.has(wkey(currentSpellingWord))) srsRate(currentSpellingWord, true);
                 addXP(15);
                 spellQueue.shift();
@@ -1586,6 +1812,7 @@
                 feedbackEl.innerHTML = `<span class="text-rose-600 dark:text-rose-400 font-bold"><i class="fa-solid fa-circle-xmark mr-1"></i> Chưa đúng. Từ đúng là: "${currentSpellingWord.Word}"</span>`;
                 const sk = wkey(currentSpellingWord);
                 playSoundEffect('wrong');
+                comboHit(false);
                 if (!spellFailedSet.has(sk)) srsRate(currentSpellingWord, false);
                 spellFailedSet.add(sk);
                 spellErrors++;
@@ -1668,13 +1895,14 @@
                         }
 
                         if (parsedWords.length === 0) {
-                            alert("Không tìm thấy dữ liệu từ vựng phù hợp trong file Excel.");
+                            alert("Không tìm thấy từ vựng hợp lệ. File cần có ít nhất 2 cột Word (Từ vựng) và Meaning (Nghĩa) ở Sheet đầu tiên. Bấm Nhập Excel để xem hướng dẫn và tải file mẫu.");
                             return;
                         }
 
                         const defaultDeckName = file.name.replace(/\.[^/.]+$/, "");
                         const deckName = prompt("Nhập tên bộ Flashcard:", defaultDeckName) || defaultDeckName;
 
+                        assignStableIds(deckName, parsedWords);
                         decks[deckName] = parsedWords;
                         selectedSourceDeck = deckName;
                         saveData();
