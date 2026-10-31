@@ -1,78 +1,81 @@
 # English Flashcards Master
 
-Ứng dụng học từ vựng tiếng Anh chạy hoàn toàn trên trình duyệt, không cần máy chủ và không cần cài đặt. Học bằng **Flashcard**, **Trắc nghiệm** và **Chính tả**, có **lặp lại ngắt quãng (SRS)**, chuỗi ngày học, điểm XP, danh hiệu, luyện phát âm bằng micro, và cài được như một ứng dụng trên điện thoại (PWA, học offline).
+Ứng dụng học từ vựng tiếng Anh chạy hoàn toàn trên trình duyệt, đặt trên **GitHub Pages**, không cần máy chủ. Học bằng **Flashcard**, **Trắc nghiệm** và **Chính tả**, có lặp lại ngắt quãng (SRS), nhiệm vụ hằng ngày, cấp độ, danh hiệu, luyện phát âm bằng micro, và cài được như một ứng dụng trên điện thoại (PWA, học offline).
 
-> Toàn bộ tiến độ học được lưu ngay trong trình duyệt của người dùng, không gửi đi đâu.
+> Mọi tiến độ học được lưu ngay trên thiết bị của người dùng, không gửi đi đâu. Toàn bộ thư viện đã được lưu sẵn trong repo, trang không gọi bất kỳ CDN bên ngoài nào.
 
 ## Tính năng
 
-**Ba chế độ học**
-- **Flashcard:** lật thẻ xem nghĩa, ví dụ và phiên âm. Vuốt trái = *Ôn lại*, vuốt phải = *Đã thuộc*. Học theo phiên: từ đã thuộc rời khỏi vòng, từ ôn lại quay lại sau 4 thẻ, học hết thì có màn hình chúc mừng.
-- **Trắc nghiệm:** nghe/đọc từ tiếng Anh rồi chọn nghĩa đúng. Trả lời đúng tự chuyển câu, trả lời sai thì từ đó quay lại cuối hàng cho đến khi đúng hết.
-- **Chính tả:** nghe phát âm rồi gõ lại từ tiếng Anh, có thanh tiến độ và màn hình hoàn thành.
+**Học tập**
+- **Flashcard theo phiên:** chạm để lật, vuốt trái = *Ôn lại*, vuốt phải = *Đã thuộc*. Từ đã thuộc rời khỏi vòng, từ ôn lại quay lại sau vài thẻ (chỉnh được), học hết thì có màn hình chúc mừng. Có thanh tiến độ, nút **Hoàn tác**, và 4 mức đánh giá SRS: *Quên · Khó · Tốt · Dễ*.
+- **Trắc nghiệm:** tự chuyển câu khi đúng, từ sai quay lại đến khi đúng hết. Đáp án nhiễu được chọn thông minh (cùng loại từ, độ dài và chữ gần giống).
+- **Chính tả:** gợi ý từng bước, tô đỏ đúng những chữ viết sai, từ sai quay lại cuối hàng.
+- **Học hai chiều:** Anh → Việt hoặc Việt → Anh cho Flashcard và Trắc nghiệm.
+- **Học hôm nay:** một nút gom từ đến hạn ôn (SRS) và từ mới theo mục tiêu ngày.
+- **Tiếp tục phiên học dở:** đóng trang giữa chừng vẫn quay lại học tiếp đúng chỗ.
+- **Mẹo nhớ & Từ ma:** ghi mẹo nhớ riêng cho từng từ; từ quên từ 5 lần trở lên được gắn nhãn 👻.
+- **Đọc tự động**, giọng Mỹ/Anh, tốc độ đọc chỉnh được; **luyện phát âm** bằng micro.
 
-**Học thông minh**
-- **SRS:** từ đúng thì được giãn dần thời gian ôn (1, 3, 7, 14, 30, 60, 120 ngày); từ sai hoặc "Ôn lại" quay lại ngay trong ngày. Phạm vi học có mục **Đến hạn ôn hôm nay** và **Từ hay quên (tất cả bài)** gom từ mọi bộ bài.
-- **Phạm vi học linh hoạt:** chia theo mục tiêu từ/ngày, học tích lũy, hoặc chọn khoảng tùy ý; có thể xáo trộn thứ tự.
-- **Đọc tự động** từ khi sang thẻ/câu mới (bật/tắt trên header) và **luyện phát âm** bằng micro (chấm theo độ giống từ gốc).
-- **Âm thanh hiệu ứng** khi trả lời đúng/sai.
+**Động lực và thống kê**
+- Chuỗi ngày học (có **đóng băng chuỗi**), XP, **cấp độ** (10 bậc), **3 nhiệm vụ mỗi ngày**, và **24 danh hiệu** (có thanh tiến độ và danh hiệu bí mật).
+- Thống kê: lịch hoạt động 12 tuần, biểu đồ 14 ngày, độ chính xác theo chế độ, phân bố trạng thái ghi nhớ, top 10 từ khó nhất.
 
-**Động lực**
-- Chuỗi ngày học liên tiếp, điểm XP, và **24 danh hiệu** theo nhóm (từ vựng, chuỗi ngày, chính tả, trắc nghiệm, phát âm, SRS, hoàn thành, XP, danh hiệu bí mật). Danh hiệu chưa mở có thanh tiến độ.
-- Tab **Thống kê** hiển thị tiến độ ghi nhớ toàn bộ từ vựng.
-
-**Dữ liệu**
-- Nạp bộ bài từ file Excel/CSV trong thư mục `data/` (tự cập nhật khi file thay đổi trên GitHub), hoặc người dùng tự bấm **Nhập Excel** để thêm bộ bài riêng. Có hướng dẫn định dạng và file mẫu ngay trong app.
+**Dữ liệu và độ bền**
+- **Sao lưu / khôi phục** tiến độ bằng một file; nhắc sao lưu nếu quá 14 ngày.
+- Bộ bài người dùng tự nhập lưu trong **IndexedDB** (chứa được hàng chục nghìn từ), bộ bài mặc định lấy từ thư mục `data/` và tự cập nhật khi file đổi.
+- **Chống XSS:** mọi nội dung từ file Excel đều được lọc khi hiển thị, kèm Content-Security-Policy chỉ cho phép kết nối tới chính website.
+- **Cài đặt** (bánh răng): âm thanh, âm lượng, giọng đọc, cỡ chữ, giảm chuyển động, rung, số thẻ quay lại sau "Ôn lại"...
+- Khả năng tiếp cận: điều hướng bàn phím, nhãn cho trình đọc màn hình, hướng dẫn nhanh lần đầu (mở lại bằng phím `?`).
 
 ## Cấu trúc repo
 
 ```
 .
-├── index.html                  # Toàn bộ ứng dụng (HTML + CSS + JavaScript)
-├── sw.js                       # Service worker: học offline, cập nhật phiên bản
-├── manifest.webmanifest        # Khai báo PWA (tên, màu, icon)
-├── icon-192.png
-├── icon-512.png
-├── icon-maskable-512.png
-└── data/
-    ├── files.json              # (Tùy chọn) danh sách file bộ bài cần nạp
-    ├── Vocabulary_A1.xlsx      # Ví dụ bộ bài
-    └── Vocabulary_A2.xlsx
+├── index.html                  # Trang chính
+├── css/
+│   ├── tailwind.css            # CSS đã biên dịch (npm run build:css)
+│   └── app.css                 # CSS riêng của ứng dụng
+├── js/
+│   ├── app.js                  # Logic chính: dữ liệu, thẻ, trắc nghiệm, chính tả
+│   └── features.js             # Hệ thống bổ sung: cài đặt, sao lưu, nhiệm vụ, thống kê...
+├── vendor/                     # Thư viện đã lưu sẵn (SheetJS, confetti, Font Awesome)
+├── data/                       # Bộ bài của bạn (file Excel) + files.json
+├── sw.js                       # Service worker (offline)
+├── manifest.webmanifest        # Khai báo PWA
+├── icon-*.png
+├── scripts/                    # Công cụ kiểm tra dữ liệu, chép thư viện
+├── tests/                      # Kiểm thử tự động
+├── .github/workflows/ci.yml    # Tự kiểm tra mỗi lần push
+└── package.json
 ```
 
 ## Triển khai lên GitHub Pages
 
-1. Tạo repo trên GitHub và tải lên tất cả các file ở trên (giữ nguyên cấu trúc).
-2. Vào **Settings → Pages**.
-3. Ở mục **Build and deployment**, chọn **Source: Deploy from a branch**, chọn nhánh `main` và thư mục `/ (root)`, rồi bấm **Save**.
-4. Đợi khoảng 1-2 phút, truy cập `https://<tên-tài-khoản>.github.io/<tên-repo>/`.
+1. Đưa toàn bộ file lên repo (xem **HUONG_DAN_CAP_NHAT_GITHUB.md**).
+2. Vào **Settings → Pages**, chọn **Deploy from a branch**, nhánh `main`, thư mục `/ (root)`, bấm **Save**.
+3. Sau khoảng 1-2 phút, mở `https://<tên-tài-khoản>.github.io/<tên-repo>/`.
 
-Mọi đường dẫn trong ứng dụng đều là đường dẫn tương đối nên chạy được cả khi repo nằm trong thư mục con như trên.
+Mọi đường dẫn đều là đường dẫn tương đối nên chạy được khi repo nằm trong thư mục con.
 
-### Chạy thử trên máy
-
-Mở trực tiếp file `index.html` bằng đường dẫn `file://` sẽ **không** nạp được thư mục `data/` và không bật được service worker. Hãy chạy một máy chủ tĩnh đơn giản trong thư mục repo:
+**Chạy thử trên máy:** không mở trực tiếp bằng `file://`, hãy chạy máy chủ tĩnh trong thư mục repo:
 
 ```bash
-python3 -m http.server 8000
-# rồi mở http://localhost:8000
+python3 -m http.server 8000      # rồi mở http://localhost:8000
 ```
 
 ## Thêm bộ bài từ vựng
 
-Có hai cách:
-
-**1. Thêm vào repo (mọi người dùng đều thấy):**
+**Cách 1: thêm vào repo (mọi người dùng đều thấy)**
 1. Chép file `.xlsx` (hoặc `.xls`, `.csv`) vào thư mục `data/`. Tên bộ bài lấy từ tên file (dấu `_` đổi thành khoảng trắng).
-2. Tạo hoặc sửa `data/files.json`, liệt kê tên các file cần nạp:
+2. Liệt kê tên file trong `data/files.json`:
    ```json
    ["Vocabulary_A1.xlsx", "Vocabulary_A2.xlsx", "Vocabulary_B1.xlsx"]
    ```
-3. Commit và push. Người dùng mở lại trang sẽ nhận bộ bài mới hoặc nội dung đã cập nhật.
+3. Commit và push. Người dùng mở lại trang sẽ nhận bộ bài mới hoặc nội dung đã cập nhật. Tiến độ của các từ không đổi tên vẫn được giữ.
 
-Nếu không có `files.json`, ứng dụng dùng danh sách mặc định khai báo trong `index.html` (biến `DEFAULT_DATA_FILES`). Tiến độ của các từ đã học được giữ nguyên khi bạn cập nhật file, miễn là từ đó không đổi tên.
+Nếu không có `files.json`, ứng dụng dùng danh sách mặc định khai báo trong `js/app.js` (biến `DEFAULT_DATA_FILES`).
 
-**2. Người dùng tự nhập:** bấm nút **Nhập Excel** trên thanh trên cùng, làm theo hướng dẫn và chọn file. Bộ bài này chỉ lưu trong trình duyệt của người đó.
+**Cách 2: người dùng tự nhập:** bấm **Nhập Excel** trên thanh trên cùng, xem hướng dẫn, tải file mẫu và chọn file. Bộ bài này chỉ lưu trên thiết bị của người đó.
 
 ### Định dạng file Excel
 
@@ -81,66 +84,60 @@ Nếu không có `files.json`, ứng dụng dùng danh sách mặc định khai 
 | apple | /ˈæp.əl/ | quả táo | I eat an apple every day. |
 | book | /bʊk/ | quyển sách | She is reading a book. |
 
-- Dữ liệu nằm ở **Sheet đầu tiên**; dòng đầu là tiêu đề, mỗi dòng sau là một từ.
-- **Bắt buộc:** cột `Word` (hoặc `Từ vựng`) và `Meaning` (hoặc `Nghĩa`). **Tùy chọn:** `Phonetic` (hoặc `Phiên âm`) và `Example` (hoặc `Ví dụ`).
-- Tên cột không phân biệt hoa/thường, thứ tự cột tùy ý, tiêu đề nằm trong 10 dòng đầu.
-- Nếu không có tiêu đề, ứng dụng đọc theo thứ tự cột B = từ, C = phiên âm, D = nghĩa, E = ví dụ, bắt đầu từ dòng 2.
-- Dòng thiếu `Word` hoặc `Meaning` bị bỏ qua. Không gộp ô, không dùng công thức/hình ảnh. File CSV nên lưu dạng UTF-8.
+- Dữ liệu ở **Sheet đầu tiên**; dòng đầu là tiêu đề, mỗi dòng sau là một từ.
+- **Bắt buộc:** `Word` (hoặc `Từ vựng`) và `Meaning` (hoặc `Nghĩa`). **Tùy chọn:** `Phonetic` (`Phiên âm`), `Example` (`Ví dụ`).
+- Tên cột không phân biệt hoa/thường, thứ tự tùy ý, tiêu đề nằm trong 10 dòng đầu. Không có tiêu đề thì đọc theo cột B, C, D, E từ dòng 2.
+- Dòng thiếu `Word` hoặc `Meaning` bị bỏ qua. Không gộp ô, không công thức. File CSV nên lưu UTF-8.
+- Chạy `npm run validate` để kiểm tra các file trong `data/` trước khi đẩy lên.
 
-Trong ứng dụng có nút **Tải file mẫu (.xlsx)** để lấy file đúng định dạng.
+## Cách chấm điểm ghi nhớ
 
-## Phím tắt và cử chỉ
-
-| Màn hình | Thao tác | Tác dụng |
+| Nút / phím | Ý nghĩa | Lịch ôn tiếp theo |
 |---|---|---|
-| Flashcard | `Space` hoặc chạm vào thẻ | Lật thẻ |
-| Flashcard | `←` hoặc vuốt trái | Ôn lại |
-| Flashcard | `→` hoặc vuốt phải | Đã thuộc |
-| Flashcard | `Shift + ←` / `Shift + →` | Thẻ trước / thẻ tiếp (chỉ duyệt, không chấm) |
-| Trắc nghiệm | `1` `2` `3` `4` | Chọn đáp án |
-| Trắc nghiệm | `Enter` | Sang câu tiếp (sau khi đã trả lời) |
+| Ôn lại (`1`, `←`, vuốt trái) | Quên | Học lại ngay hôm nay |
+| Khó (`2`) | Nhớ nhưng khó | Ngày mai |
+| Đã thuộc (`3`, `→`, vuốt phải) | Tốt | Tăng một bậc: 1, 3, 7, 14, 30, 60, 120 ngày |
+| Dễ (`4`) | Quá dễ | Tăng hai bậc |
 
-## Điểm XP
+Phím khác: `Space` lật thẻ, `Shift+←/→` thẻ trước/sau, `Z` hoàn tác, `?` mở hướng dẫn. Trắc nghiệm: `1-4` chọn đáp án, `Enter` câu tiếp theo.
 
-| Hành động | XP |
-|---|---|
-| Đánh dấu "Đã thuộc" lần đầu trong phiên | +5 |
-| Trắc nghiệm đúng | +10 |
-| Chính tả đúng | +15 |
-| Phát âm đạt (từ 80%) | +5 |
-| Hoàn thành một phiên không sai/ôn lại lần nào | +50 |
-| Mở một danh hiệu | +50 |
-
-## Cài đặt như ứng dụng và học offline
-
-- Trên **Chrome/Edge (máy tính và Android):** dùng menu của trình duyệt chọn *Cài đặt ứng dụng* / *Thêm vào màn hình chính*.
-- Trên **iPhone/iPad:** mở bằng Safari, chọn *Chia sẻ → Thêm vào MH chính*.
-- Truy cập **một lần khi có mạng** để ứng dụng lưu sẵn mọi thứ cần thiết; sau đó mở được cả khi không có mạng.
-- Luyện phát âm bằng micro cần HTTPS (GitHub Pages đã có) và trình duyệt hỗ trợ nhận dạng giọng nói (Chrome, Edge, Safari).
-
-## Cập nhật phiên bản
-
-Chỉ cần commit và push lên GitHub. Với các file cùng tên miền (`index.html`, `data/`), service worker luôn ưu tiên lấy bản mới khi có mạng, và ứng dụng sẽ báo "Có phiên bản mới" để người dùng tải lại trang.
-
-Nếu bạn đổi tên hoặc thêm file tĩnh cần lưu offline (ví dụ icon), hãy tăng số phiên bản của `CACHE` ở đầu file `sw.js` (`flashcard-v4` → `flashcard-v5`) để trình duyệt xóa bộ nhớ đệm cũ.
+Chỉ lần chấm **đầu tiên** của mỗi từ trong một phiên được tính vào SRS và XP, để việc nhớ ngắn hạn không làm lịch ôn bị lệch.
 
 ## Dữ liệu và quyền riêng tư
 
-- Bộ bài người dùng nhập, tiến độ SRS, danh sách đã thuộc/ôn lại, XP, chuỗi ngày và danh hiệu đều lưu trong `localStorage` của trình duyệt, trên từng thiết bị.
-- **Không đồng bộ** giữa các thiết bị, và xóa dữ liệu trình duyệt sẽ mất tiến độ. Nút xóa dữ liệu trong tab Thống kê cũng xóa toàn bộ.
-- Ứng dụng không có máy chủ riêng và không thu thập dữ liệu. Nhận dạng giọng nói do trình duyệt xử lý (có thể gửi âm thanh tới dịch vụ của nhà cung cấp trình duyệt).
+- Tiến độ, XP, nhật ký học, mẹo nhớ... nằm trong `localStorage`; bộ bài người dùng nhập nằm trong IndexedDB của trình duyệt.
+- **Không đồng bộ** giữa các thiết bị. Dùng nút **Sao lưu** (tab Thống kê) rồi **Khôi phục** trên thiết bị khác. Safari có thể xóa dữ liệu trang sau 7 ngày không dùng nếu chưa thêm vào màn hình chính, nên hãy sao lưu định kỳ.
+- Ứng dụng không có máy chủ riêng và không thu thập dữ liệu. Nhận dạng giọng nói do trình duyệt xử lý.
 
-## Công nghệ
+## Cập nhật phiên bản
 
-HTML, JavaScript thuần (không cần build) cùng các thư viện tải từ CDN:
-[Tailwind CSS](https://tailwindcss.com/), [Font Awesome 6.4](https://fontawesome.com/), [SheetJS (xlsx 0.18.5)](https://sheetjs.com/), [canvas-confetti](https://github.com/catdad/canvas-confetti). Đọc phát âm và nhận dạng giọng nói dùng Web Speech API; âm thanh hiệu ứng dùng Web Audio API.
+Mỗi lần **sửa file trong `js/`, `css/` hoặc `index.html`**, hãy tăng số phiên bản ở hai nơi để mọi người dùng nhận bản mới ngay:
+
+1. Trong `index.html` và `sw.js`: đổi tất cả `?v=5` thành `?v=6`.
+2. Trong `sw.js`: đổi `flashcard-v5` thành `flashcard-v6`.
+
+(Dùng chức năng Tìm & Thay thế của trình soạn thảo.) Sửa file Excel trong `data/` thì **không** cần đổi số phiên bản. `npm run validate` sẽ báo lỗi nếu hai nơi không khớp nhau.
+
+## Dành cho người phát triển
+
+```bash
+npm install            # cài công cụ (chỉ để phát triển, không cần khi chỉ thêm bộ bài)
+npm run build:css      # biên dịch lại css/tailwind.css (khi thêm class Tailwind mới)
+npm run vendor         # chép lại thư viện vào vendor/
+npm run validate       # kiểm tra data/ và số phiên bản
+npm test               # chạy kiểm thử tự động (jsdom)
+npm run check          # chạy tất cả kiểm tra như CI
+```
+
+Mỗi lần push, **GitHub Actions** (`.github/workflows/ci.yml`) tự chạy `npm run check`; dấu ✗ đỏ cạnh commit nghĩa là có lỗi cần xem lại.
 
 ## Xử lý sự cố
 
 | Hiện tượng | Cách xử lý |
 |---|---|
-| Bộ bài trong `data/` không hiện | Kiểm tra tên file trong `data/files.json` đúng từng chữ (kể cả hoa/thường), và mở trang qua `http(s)://` chứ không phải `file://`. |
-| Nhập Excel báo "Không tìm thấy từ vựng hợp lệ" | File cần có tối thiểu hai cột `Word` và `Meaning` ở Sheet đầu tiên. Bấm **Nhập Excel** để xem hướng dẫn và tải file mẫu. |
-| Đã push nhưng trang vẫn là bản cũ | Tải lại cứng (`Ctrl+Shift+R`), hoặc đợi vài phút để GitHub Pages triển khai xong. Nếu vẫn cũ, tăng số phiên bản `CACHE` trong `sw.js`. |
-| Không có tiếng đọc từ | Kiểm tra nút loa trên header đã bật, âm lượng thiết bị, và trình duyệt có giọng đọc tiếng Anh. |
-| Nút micro không hoạt động | Cho phép quyền micro cho trang, và dùng Chrome/Edge/Safari qua HTTPS. |
+| Đã push nhưng trang vẫn là bản cũ | Đợi 1-2 phút để GitHub Pages triển khai, rồi tải lại cứng (`Ctrl+Shift+R`) hoặc đóng hẳn tab và mở lại. Nếu bạn sửa code, nhớ tăng số phiên bản (mục trên). |
+| Bộ bài trong `data/` không hiện | Kiểm tra tên trong `data/files.json` đúng từng chữ (kể cả hoa/thường); chạy `npm run validate`. |
+| Nhập Excel báo "Không tìm thấy từ vựng hợp lệ" | File cần tối thiểu hai cột `Word` và `Meaning` ở Sheet đầu tiên. Bấm **Nhập Excel** để xem hướng dẫn và tải file mẫu. |
+| Muốn dùng lại bộ bài mặc định đã ẩn | Cài đặt (bánh răng) → *Hiện lại các bộ bài đã ẩn*. |
+| Không có tiếng đọc từ | Kiểm tra Cài đặt đã bật tự động đọc, âm lượng thiết bị, và trình duyệt có giọng tiếng Anh. |
+| Micro không hoạt động | Cho phép quyền micro; dùng Chrome/Edge/Safari qua HTTPS. |

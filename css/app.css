@@ -1,0 +1,39 @@
+.perspective { perspective: 1000px; }
+.transform-style-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+.rotate-y-180 { transform: rotateY(180deg); }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+.dark ::-webkit-scrollbar-thumb { background: #475569; }
+
+.select-custom {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Khả năng tiếp cận: viền focus rõ ràng khi dùng bàn phím */
+:focus-visible { outline: 3px solid #6366f1; outline-offset: 2px; border-radius: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.sr-only:focus { position: fixed; top: 8px; left: 8px; width: auto; height: auto; margin: 0; padding: 8px 14px; clip: auto; z-index: 100; background: #4f46e5; color: #fff; border-radius: 10px; }
+
+/* Giảm hiệu ứng chuyển động (theo cài đặt hệ thống hoặc trong Cài đặt) */
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Ô lịch hoạt động */
+.heat-cell { width: 100%; aspect-ratio: 1; border-radius: 3px; }
+.heat-0 { background: #e2e8f0; }
+.dark .heat-0 { background: #334155; }
+.heat-1 { background: #bbf7d0; }
+.heat-2 { background: #4ade80; }
+.heat-3 { background: #16a34a; }
+.heat-4 { background: #166534; }

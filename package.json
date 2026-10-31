@@ -1,0 +1,20 @@
+{
+  "name": "english-flashcards-master",
+  "version": "5.0.0",
+  "private": true,
+  "description": "Ứng dụng học từ vựng tiếng Anh (Flashcard, Trắc nghiệm, Chính tả, SRS) chạy trên GitHub Pages",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/input.css -o css/tailwind.css --minify",
+    "vendor": "node scripts/sync-vendor.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "test": "node --test tests/smoke.test.mjs",
+    "check": "npm run validate && node --check js/app.js && node --check js/features.js && node --check sw.js && npm test"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "6.4.0",
+    "canvas-confetti": "1.6.0",
+    "jsdom": "^24.1.0",
+    "tailwindcss": "^3.4.10",
+    "xlsx": "0.18.5"
+  }
+}
