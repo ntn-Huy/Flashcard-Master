@@ -11,8 +11,12 @@ const SAMPLE_DECKS = {
 
 // Danh sách các file mặc định trong thư mục /data
 const DEFAULT_DATA_FILES = [
-    "./data/Vocabulary_A1.xlsx",
-    "./data/Vocabulary_A2.xlsx",
+    "./data/Vocabulary A1.xlsx",
+    "./data/Vocabulary A2.xlsx",
+    "./data/Vocabulary B1.xlsx",
+    "./data/Vocabulary B2.xlsx",
+    "./data/Vocabulary C1.xlsx",
+    "./data/Vocabulary C2.xlsx",
     "./data/default_decks.json"
 ];
 
